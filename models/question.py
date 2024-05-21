@@ -9,11 +9,12 @@ from uuid import uuid4
 class Question:
     """Class to create questions object"""
     def __init__(self, question, answer=None, options=None, verified=False,
-            posting=None, pq=True, explanation=None, topic=None,
+                 posting=None, pq=True, explanation=None, topic=None,
                  **kwargs) -> None:
         """Initialize the questions class"""
-        self.id = str(uuid4())
+        self._id = str(uuid4())
         self.question = question
+        self.__answer = None
         self.options = options if options else [True, False]
         self.answer = answer
         self.posting = posting
@@ -53,6 +54,8 @@ class Question:
             self.__options = options
         else:
             raise ValueError("Options must be a Sequence or Mapping")
+        if self.answer and self.answer not in options:
+            self.answer = None
 
     @property
     def answer(self):
@@ -66,15 +69,10 @@ class Question:
             self.__answer = None
             return
         if self.options:
-            if isinstance(self.options, (tuple, list)):
+            if isinstance(self.options, (tuple, list, dict)):
                 if text not in self.options:
                     raise ValueError("Answer not included in options")
-            elif isinstance(self.options, dict):
-                if (text not in self.options.keys() and
-                    text not in self.options.values()):
-                    raise ValueError("Answer not included in options")
         self.__answer = text
-
 
     @property
     def posting(self):
@@ -142,6 +140,7 @@ class Question:
         """Convert instance to dictionary"""
         my_dict = {}
         for key, value in self.__dict__.items():
+            key = key.replace('_' + self.__class__.__name__ + '__', '')
             if isinstance(value, datetime):
                 my_dict[key] = str(value)
             else:
@@ -156,5 +155,5 @@ class Question:
 
     def __repr__(self):
         """String Reprsentation of the instance"""
-        return (f"[({self.id}) - ({self.posting}"
+        return (f"[({self._id}) - ({self.posting}"
                 f", {self.topic})] - {self.question}")
