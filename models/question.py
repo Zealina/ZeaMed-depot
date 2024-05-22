@@ -44,7 +44,7 @@ class Question(Base):
         self.topic = topic
         self.pq = pq
         self.created_at = kwargs.get('created_at', datetime.now())
-        self.updated_at = kwargs.get('updated_at', self.__created_at)
+        self.updated_at = kwargs.get('updated_at', self.created_at)
         self.explanation = explanation
         self.verified = verified
         for key, value in kwargs.items():
@@ -73,10 +73,10 @@ class Question(Base):
     @options.setter
     def options(self, options):
         """Setter method"""
-        if options and isinstance(options, (dict, tuple, list)):
+        if options and isinstance(options, list):
             self.__options = options
         else:
-            raise ValueError("Options must be a Sequence or Mapping")
+            raise ValueError("Options must be a List")
         if self.answer and self.answer not in options:
             self.answer = None
 

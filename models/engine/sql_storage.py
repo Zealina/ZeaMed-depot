@@ -28,7 +28,10 @@ class SQLStorage:
 
     def all(self, cls=None):
         """query on the current database session"""
-        pass
+        if cls:
+            return self.__session.query(cls).all()
+        else:
+            return self.__session.query(Question).all()
 
     def new(self, obj):
         """add the object to the current database session"""
@@ -54,15 +57,19 @@ class SQLStorage:
         """call remove() method on the private session attribute"""
         self.__session.remove()
 
-    def get(self, id):
+    def get(self, id, cls=None):
         """
         Returns the object based on the class name and its ID, or
         None if not found
         """
-        pass
+        if cls:
+            return self.__session.query(cls).filter_by(id=id).first()
+        return self.__session.query(Question).filter_by(id=id).first()
 
     def count(self, cls=None):
         """
         count the number of objects in storage
         """
-        pass
+        if cls:
+            return self.__session.query(cls).count()
+        return self.__session.query(Question).count()
