@@ -2,17 +2,40 @@
 """Questions Module contains the question class and all related functions"""
 
 from datetime import datetime
-import typing
 from uuid import uuid4
+import models
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Text, Boolean, DateTime, ARRAY
+
+Base = declarative_base()
 
 
-class Question:
+class Question(Base):
     """Class to create questions object"""
+
+    __tablename__ = 'questions'
+    
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    question = Column(Text, nullable=False)
+    answer = Column(Text)
+    options = Column(ARRAY(Text), default=[True, False])
+    verified = Column(Boolean, default=False)
+    posting = Column(Text)
+    pq = Column(Boolean, default=True)
+    explanation = Column(Text)
+    topic = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(
+                        DateTime,
+                        default=datetime.utcnow,
+                        onupdate=datetime.utcnow)
+
+
     def __init__(self, question, answer=None, options=None, verified=False,
                  posting=None, pq=True, explanation=None, topic=None,
                  **kwargs) -> None:
         """Initialize the questions class"""
-        self._id = str(uuid4())
+        self.id = str(uuid4())
         self.question = question
         self.__answer = None
         self.options = options if options else [True, False]
@@ -20,8 +43,8 @@ class Question:
         self.posting = posting
         self.topic = topic
         self.pq = pq
-        self.__created_at = kwargs.get('created_at', datetime.now())
-        self.__updated_at = kwargs.get('updated_at', self.__created_at)
+        self.created_at = kwargs.get('created_at', datetime.now())
+        self.updated_at = kwargs.get('updated_at', self.__created_at)
         self.explanation = explanation
         self.verified = verified
         for key, value in kwargs.items():
