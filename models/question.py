@@ -88,13 +88,9 @@ class Question(Base):
     @answer.setter
     def answer(self, text):
         """Setter method"""
-        if type(text) is not str:
-            self.__answer = None
-            return
         if self.options:
-            if isinstance(self.options, (tuple, list, dict)):
-                if text not in self.options:
-                    raise ValueError("Answer not included in options")
+            if text and text not in self.options:
+                raise ValueError("Answer not included in options")
         self.__answer = text
 
     @property

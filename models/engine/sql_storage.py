@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the class DBStorage
+Contains the class SQLStorage
 """
 
 from sqlalchemy import create_engine
@@ -20,7 +20,7 @@ class SQLStorage:
         ZMD_PASSWD = getenv('ZMD_PASSWD')
         ZMD_HOST = getenv('ZMD_HOST')
         ZMD_DBNAME = getenv('ZMD_DBNAME')
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
+        self.__engine = create_engine('mysql+pymysql://{}:{}@{}/{}'.
                                       format(ZMD_USERNAME,
                                              ZMD_PASSWD,
                                              ZMD_HOST,
