@@ -1,3 +1,6 @@
+-- Drop the databse if it already exists
+DROP DATABASE IF EXISTS `zeamed-depot`;
+
 -- Create the database if it doesn't already exist
 CREATE DATABASE IF NOT EXISTS `zeamed-depot`;
 

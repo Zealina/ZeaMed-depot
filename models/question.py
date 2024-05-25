@@ -15,7 +15,7 @@ class Question(Base):
 
     __tablename__ = 'questions'
     
-    id = Column(String(36), primary_key=True, default=lambda: str(uuid4()))
+    id = Column(String(36), primary_key=True)
     question = Column(Text, nullable=False)
     answer = Column(Text)
     options = Column(ARRAY(Text), default=[True, False])
@@ -31,22 +31,21 @@ class Question(Base):
                         onupdate=datetime.utcnow)
 
 
-    def __init__(self, question, answer=None, options=None, verified=False,
+    def __init__(self, question, answer=None, options=[True, False], verified=False,
                  posting=None, pq=True, explanation=None, topic=None,
                  **kwargs) -> None:
         """Initialize the questions class"""
         self.id = str(uuid4())
-        self.question = question
-        self.__answer = None
-        self.options = options if options else [True, False]
-        self.answer = answer
-        self.posting = posting
-        self.topic = topic
-        self.pq = pq
+        self.__question = question
+        self.__answer = answer
+        self.__options = options
+        self.__posting = posting
+        self.__topic = topic
+        self.__pq = pq
         self.created_at = kwargs.get('created_at', datetime.now())
         self.updated_at = kwargs.get('updated_at', self.created_at)
-        self.explanation = explanation
-        self.verified = verified
+        self.__explanation = explanation
+        self.__verified = verified
         for key, value in kwargs.items():
             setattr(self, key, value)
 
@@ -56,11 +55,11 @@ class Question(Base):
         return self.__question
 
     @question.setter
-    def question(self, text):
+    def question(self, value):
         """Setter method"""
-        if text and type(text) is str:
-            self.__question = text
-        elif not text:
+        if value and type(value) is str:
+            self.__question = value
+        elif not value:
             raise ValueError("Question must be present")
         else:
             raise ValueError("Question must be a string")
@@ -71,13 +70,16 @@ class Question(Base):
         return self.__options
 
     @options.setter
-    def options(self, options):
+    def options(self, value):
         """Setter method"""
-        if options and isinstance(options, list):
-            self.__options = options
+        if value:
+            if isinstance(value, list):
+                self.__options = value
+            else:
+                raise ValueError("Options must be a List")
         else:
-            raise ValueError("Options must be a List")
-        if self.answer and self.answer not in options:
+            self.__options = None
+        if self.answer and value and self.answer not in value:
             self.answer = None
 
     @property
@@ -86,12 +88,17 @@ class Question(Base):
         return self.__answer
 
     @answer.setter
-    def answer(self, text):
+    def answer(self, value):
         """Setter method"""
-        if self.options:
-            if text and text not in self.options:
-                raise ValueError("Answer not included in options")
-        self.__answer = text
+        if value:
+            if isinstance(value, (str, int, bool)):
+                self.__answer = value
+            else:
+                raise ValueError("Answer is invalid data ttpe")
+        else:
+            self.__answer = None
+        if self.options and value not in self.options:
+            self.options = None
 
     @property
     def posting(self):
@@ -159,6 +166,8 @@ class Question(Base):
         """Convert instance to dictionary"""
         my_dict = {}
         for key, value in self.__dict__.items():
+            if key == '_sa_instance_state':
+                continue
             key = key.replace('_' + self.__class__.__name__ + '__', '')
             if isinstance(value, datetime):
                 my_dict[key] = str(value)
@@ -174,5 +183,5 @@ class Question(Base):
 
     def __repr__(self):
         """String Reprsentation of the instance"""
-        return (f"[({self._id}) - ({self.posting}"
+        return (f"[({self.id}) - ({self.posting}"
                 f", {self.topic})] - {self.question}")
