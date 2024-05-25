@@ -1,0 +1,18 @@
+Posting: Pharmacology Questions
+Topic: Pharmacology
+PQ: True
+
+Q: What is the mechanism of action of aspirin?
+Answer: Inhibits cyclooxygenase
+Options: [Inhibits cyclooxygenase, Blocks acetylcholine, Activates dopamine, Increases serotonin]
+Explanation: Aspirin irreversibly inhibits COX-1 and COX-2 enzymes, leading to decreased formation of prostaglandins.
+
+Q: Which drug is used to treat hypertension?
+Answer: Lisinopril
+Options: [Lisinopril, Metformin, Atorvastatin, Furosemide]
+Explanation: Lisinopril is an ACE inhibitor that helps relax blood vessels.
+
+Q: What is the antidote for heparin overdose?
+Answer: Protamine sulfate
+Options: [Protamine sulfate, Vitamin K, FFP, Desmopressin]
+Explanation: Protamine sulfate binds to heparin to form a stable complex, neutralizing its anticoagulant effects.
