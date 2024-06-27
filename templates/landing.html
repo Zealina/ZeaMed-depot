@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page - ZeaMed Depot</title>
+    <link rel="stylesheet" href="/static/styles/landing.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="ZeaMed Depot Logo">
+            <h1>ZeaMed Depot</h1>
+        </div>
+        <div class="user-info">
+            <p>Welcome, <span id="username">User</span></p>
+        </div>
+    </header>
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/game-rooms">Game Rooms</a></li>
+                <li><a href="/leaderboard">Leaderboard</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+        <div class="content">
+            <main>
+                <section id="home" class="section">
+                    <h2>Home</h2>
+                    <p>Welcome to the ZeaMed Depot trivia game! Use the menu to navigate.</p>
+                </section>
+                <section id="profile" class="section" style="display: none;">
+                    <h2>Profile</h2>
+                    <p>This is the profile page.</p>
+                </section>
+                <section id="game-rooms" class="section" style="display: none;">
+                    <h2>Game Rooms</h2>
+                    <p>This is where you can create or join game rooms.</p>
+                    <button id="create-room-btn">Create New Room</button>
+                    <button id="join-room-btn">Join Room</button>
+                </section>
+                <section id="leaderboard" class="section" style="display: none;">
+                    <h2>Leaderboard</h2>
+                    <p>This is the leaderboard page.</p>
+                </section>
+                <section id="settings" class="section" style="display: none;">
+                    <h2>Settings</h2>
+                    <p>This is the settings page.</p>
+                </section>
+                <section id="logout" class="section" style="display: none;">
+                    <h2>Logout</h2>
+                    <p>You have been logged out.</p>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="/static/scripts/landing.js"></script>
+</body>
+</html>

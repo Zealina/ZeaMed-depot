@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question - ZeaMed Depot</title>
+    <link rel="stylesheet" href="/static/styles/question.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="ZeaMed Depot Logo">
+            <h1>ZeaMed Depot</h1>
+        </div>
+        <div class="user-info">
+            <p>Welcome, User</p>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="question-container">
+            <h2>Question 1/10</h2>
+            <div class="timer" id="timer">Time Left: 30s</div>
+            <div class="question" id="question">What is the capital of France?</div>
+            <form id="answer-form">
+                <input type="text" id="answer" placeholder="Your Answer" required>
+                <button type="submit">Submit Answer</button>
+            </form>
+        </div>
+    </div>
+    <script src="/static/scripts/question.js"></script>
+</body>
+</html>

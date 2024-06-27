@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - ZeaMed Depot</title>
+    <link rel="stylesheet" href="/static/styles/admin-panel.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="ZeaMed Depot Logo">
+            <h1>ZeaMed Depot</h1>
+        </div>
+        <div class="user-info">
+            <p>Welcome, Admin</p>
+        </div>
+    </header>
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/game-rooms">Game Rooms</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+        <div class="content">
+            <main>
+                <section class="admin-panel">
+                    <h2>Admin Panel</h2>
+                    <div class="add-question-form">
+                        <h3>Add New Question</h3>
+                        <form id="add-question-form">
+                            <div class="form-group">
+                                <label for="question">Question:</label>
+                                <textarea id="question" name="question" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="answer">Answer:</label>
+                                <input type="text" id="answer" name="answer" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category:</label>
+                                <input type="text" id="category" name="category" required>
+                            </div>
+                            <button type="submit">Add Question</button>
+                        </form>
+                    </div>
+                    <div class="question-list">
+                        <h3>Existing Questions</h3>
+                        <ul id="questions">
+                            <!-- Questions will be populated here -->
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="/static/scripts/admin-panel.js"></script>
+</body>
+</html>

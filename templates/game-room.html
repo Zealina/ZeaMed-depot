@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Room - ZeaMed Depot</title>
+    <link rel="stylesheet" href="/static/styles/game-room.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo.png" alt="ZeaMed Depot Logo">
+            <h1>ZeaMed Depot</h1>
+        </div>
+        <div class="user-info">
+            <p>Welcome, <span id="username">User</span></p>
+        </div>
+    </header>
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/game-rooms">Game Rooms</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </aside>
+        <div class="content">
+            <main>
+                <section class="game-room">
+                    <div class="players-list">
+                        <h2>Players in Room</h2>
+                        <ul id="players">
+                            <!-- List of players will be populated here -->
+                        </ul>
+                    </div>
+                    <div class="chat-box">
+                        <h2>Chat</h2>
+                        <div id="chat-messages"></div>
+                        <input type="text" id="chat-input" placeholder="Type a message...">
+                        <button id="send-message-btn">Send</button>
+                    </div>
+                    <div class="admin-controls">
+                        <button id="start-game-btn" class="admin-only">Start Game</button>
+                        <button id="admin-panel-btn" class="admin-only">Admin Panel</button>
+                    </div>
+                    <div class="leaderboard">
+                        <h2>Leaderboard</h2>
+                        <ul id="leaderboard">
+                            <!-- Leaderboard will be populated here -->
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="/static/scripts/game-room.js"></script>
+</body>
+</html>

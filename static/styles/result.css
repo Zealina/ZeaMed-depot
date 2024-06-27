@@ -1,0 +1,78 @@
+/* static/styles/result.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 2px solid #333;
+    box-shadow: 0 4px 2px -2px gray;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    height: 50px;
+    margin-right: 10px;
+}
+
+.navbar .user-info {
+    font-size: 18px;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 70px; /* Height of the navbar */
+}
+
+.result-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 50%;
+    text-align: center;
+}
+
+.result-container h2 {
+    margin-top: 0;
+}
+
+.correct-answer,
+.user-score,
+.total-score {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#next-question-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#next-question-btn:hover {
+    background-color: #0056b3;
+}
