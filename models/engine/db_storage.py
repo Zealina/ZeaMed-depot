@@ -18,13 +18,13 @@ class Storage:
         ZEAMED_MYSQL_PWD = getenv('ZEAMED_MYSQL_PWD')
         ZEAMED_MYSQL_HOST = getenv('ZEAMED_MYSQL_HOST')
         ZEAMED_MYSQL_DB = getenv('ZEAMED_MYSQL_DB')
-        ZEAMED_ENV = getenv('ZEAMED_ENV')
+        ZEAMED_MYSQL_ENV = getenv('ZEAMED_MYSQL_ENV')
         self.__engine = create_engine('mysql+pymysql://{}:{}@{}/{}'.
                                       format(ZEAMED_MYSQL_USER,
                                              ZEAMED_MYSQL_PWD,
                                              ZEAMED_MYSQL_HOST,
                                              ZEAMED_MYSQL_DB))
-        if ZEAMED_ENV == "test":
+        if ZEAMED_MYSQL_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
     def reload(self):

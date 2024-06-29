@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """User Model"""
 from models.base_model import BaseModel
-from sqlachemy import Column, String, relationship
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 from hashlib import md5
 
 
@@ -10,14 +11,14 @@ class User(BaseModel):
     __tablename__ = 'users'
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    first_name = Column(String(128), nullable=False)
-    last_name = Column(String(128), nullable=False)
-    user_name = Column(String(128), nullable=True)
+    firstname = Column(String(128), nullable=False)
+    lastname = Column(String(128), nullable=False)
+    username = Column(String(128), nullable=True)
 
 
-    def __init__(self):
+    def __init__(self, **kwargs):
         """Initialization of User"""
-        super().__init__()
+        super().__init__(**kwargs)
 
     def __setattr__(self, name, value):
         """sets a password with md5 encryption"""
