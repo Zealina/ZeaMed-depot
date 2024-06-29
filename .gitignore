@@ -1,2 +1,3 @@
 __pycache__/
-.database_login
+.database_dev_login
+.database_test_login
