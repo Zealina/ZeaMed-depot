@@ -42,11 +42,5 @@ storage.update(retrieved_user)
 print("\nUpdated User:")
 print(storage.get(User, retrieved_user.id))
 
-# Delete the user
-storage.delete(retrieved_user)
-
-# Print a message to indicate deletion
-print("\nUser Deleted.")
-
 # Close the storage session
 storage.close()
