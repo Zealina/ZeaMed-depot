@@ -1,19 +1,26 @@
 #!/usr/bin/env python3
 """authentication endpoints"""
 
-from flask import Flask, render_template
+from flask import Flask
 from os import getenv
+from flask_login import LoginManager
+from models.user import User
+from api.v1.views import app_views
+from models import storage
 
-app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return"Welcome to my App"
+def create_app():
+    app = Flask(__name__)
 
-@app.route('/test')
-def test_html():
-    html = getenv('html')
-    return render_template(html)
+    app.secret_key = getenv("ZEAMED_SECRET_KEY")
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return storage.get(User, user_id)
+
+    app.register_blueprint(app_views)
+    return app
