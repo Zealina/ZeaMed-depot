@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Room - ZeaMed Depot</title>
-    <link rel="stylesheet" href="/static/styles/game-room.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/game-room.css') }}">
 </head>
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="/static/images/logo.png" alt="ZeaMed Depot Logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="ZeaMed Depot Logo">
             <h1>ZeaMed Depot</h1>
         </div>
         <div class="user-info">
-            <p>Welcome, <span id="username">User</span></p>
+            <p>Welcome, <span id="username">{{ current_user.username }}</span></p>
         </div>
     </header>
     <div class="main-container">
         <aside class="sidebar">
             <ul>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/game-rooms">Game Rooms</a></li>
-                <li><a href="/settings">Settings</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('profile') }}">Profile</a></li>
+                <li><a href="{{ url_for('game_rooms') }}">Game Rooms</a></li>
+                <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
         </aside>
         <div class="content">
@@ -32,7 +32,9 @@
                     <div class="players-list">
                         <h2>Players in Room</h2>
                         <ul id="players">
-                            <!-- List of players will be populated here -->
+                            {% for player in players %}
+                            <li>{{ player.username }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="chat-box">
@@ -41,10 +43,13 @@
                         <input type="text" id="chat-input" placeholder="Type a message...">
                         <button id="send-message-btn">Send</button>
                     </div>
+                    {% if current_user.id == room_creator_id %}
                     <div class="admin-controls">
-                        <button id="start-game-btn" class="admin-only">Start Game</button>
-                        <button id="admin-panel-btn" class="admin-only">Admin Panel</button>
+                        <button id="start-game-btn">Start Game</button>
+                        <button id="add-question-btn">Add Question</button>
+                        <button id="admin-panel-btn">Admin Panel</button>
                     </div>
+                    {% endif %}
                     <div class="leaderboard">
                         <h2>Leaderboard</h2>
                         <ul id="leaderboard">
@@ -55,6 +60,6 @@
             </main>
         </div>
     </div>
-    <script src="/static/scripts/game-room.js"></script>
+    <script src="{{ url_for('static', filename='scripts/game-room.js') }}"></script>
 </body>
 </html>

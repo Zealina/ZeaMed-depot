@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page - ZeaMed Depot</title>
+    <title>Dashboard - ZeaMed Depot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboard.css') }}">
 </head>
 <body>
@@ -19,11 +19,11 @@
     <div class="main-container">
         <aside class="sidebar">
             <ul>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/game-rooms">Game Rooms</a></li>
-                <li><a href="/leaderboard">Leaderboard</a></li>
-                <li><a href="/settings">Settings</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="/api/v1/game-room">Game Rooms</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#settings">Settings</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </aside>
@@ -39,12 +39,6 @@
                     <p>Email: {{ user.email }}</p>
                     <p>First Name: {{ user.firstname }}</p>
                     <p>Last Name: {{ user.lastname }}</p>
-                </section>
-                <section id="game-rooms" class="section">
-                    <h2>Game Rooms</h2>
-                    <p>This is where you can create or join game rooms.</p>
-                    <button id="create-room-btn">Create New Room</button>
-                    <button id="join-room-btn">Join Room</button>
                 </section>
                 <section id="leaderboard" class="section">
                     <h2>Leaderboard</h2>

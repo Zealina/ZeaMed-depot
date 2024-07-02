@@ -12,12 +12,7 @@ class GameRoom(BaseModel):
 
     name = Column(String(255), nullable=False)
     creator_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-    game_started = Column(Boolean, default=False)
 
-    creator = relationship('User')
-    questions = relationship('Question', back_populates='game_room', cascade='all, delete-orphan')
-
-    def __init__(self, name, creator, **kwargs):
+    def __init__(self, name, **kwargs):
         self.name = name
-        self.creator = creator
         super().__init__(**kwargs)

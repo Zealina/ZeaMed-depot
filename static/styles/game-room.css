@@ -1,23 +1,16 @@
-/* static/styles/game-room.css */
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
+    padding: 0;
 }
 
 .navbar {
+    background-color: #333;
+    color: white;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 10px 20px;
-    background-color: #ffffff;
-    border-bottom: 2px solid #333;
-    box-shadow: 0 4px 2px -2px gray;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
 }
 
 .navbar .logo {
@@ -26,86 +19,60 @@ body {
 }
 
 .navbar .logo img {
-    height: 50px;
+    height: 40px;
     margin-right: 10px;
 }
 
 .navbar .user-info {
-    font-size: 18px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 250px;
+    display: flex;
+    align-items: center;
 }
 
 .main-container {
     display: flex;
-    margin-top: 70px; /* Height of the navbar */
+    height: calc(100vh - 60px);
 }
 
 .sidebar {
-    background-color: #333;
+    background-color: #444;
     color: white;
-    width: 250px;
     padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: calc(100vh - 70px);
-}
-
-.sidebar h2 {
-    margin: 0;
-    font-size: 24px;
+    width: 200px;
 }
 
 .sidebar ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    width: 100%;
-    text-align: center;
 }
 
 .sidebar ul li {
-    margin: 15px 0;
+    margin-bottom: 10px;
 }
 
 .sidebar ul li a {
     color: white;
     text-decoration: none;
-    font-size: 18px;
-    display: block;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-.sidebar ul li a:hover {
-    background-color: #575757;
 }
 
 .content {
-    flex-grow: 1;
+    flex: 1;
     padding: 20px;
-    overflow-y: auto;
 }
 
 .game-room {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-direction: column;
 }
 
 .players-list,
 .chat-box,
+.admin-controls,
 .leaderboard {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    flex: 1;
-    min-width: 300px;
 }
 
 .players-list h2,
@@ -114,40 +81,35 @@ body {
     margin-top: 0;
 }
 
-.players-list ul,
-.leaderboard ul {
-    list-style-type: none;
+#chat-messages {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#chat-input {
+    width: calc(100% - 100px);
+}
+
+#send-message-btn {
+    width: 80px;
+    margin-left: 10px;
+}
+
+.admin-controls button {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#leaderboard {
+    list-style: none;
     padding: 0;
 }
 
-.chat-box {
-    flex: 2;
-}
-
-#chat-messages {
-    height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-.admin-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.admin-only {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.admin-only:hover {
-    background-color: #0056b3;
+#leaderboard li {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
 }

@@ -4,10 +4,10 @@
 from flask import Flask
 from os import getenv
 from flask_login import LoginManager
+from flask_socketio import SocketIO
 from models.user import User
 from api.v1.views import app_views
 from models import storage
-
 
 def create_app():
     app = Flask(__name__)
@@ -23,9 +23,11 @@ def create_app():
         return storage.get(User, user_id)
 
     app.register_blueprint(app_views)
+
     return app
 
+app = create_app()
+socketio = SocketIO(app)
 
 if __name__ == '__main__':
-    app = create_app()
-    app.run(debug=True, host='0.0.0.0')
+    socketio.run(app, debug=True, host='0.0.0.0')
