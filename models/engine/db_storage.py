@@ -53,6 +53,10 @@ class Storage:
         self.__session.merge(obj)
         self.__session.commit()
 
+    def save(self):
+        """Save changes to database"""
+        self.__session.commit()
+
     def all(self, cls):
         """Retrieve all objects of a given class."""
         return self.__session.query(cls).all()

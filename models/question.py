@@ -15,7 +15,6 @@ class Question(BaseModel):
     correct_option_index = Column(String(10), nullable=False)
     game_room_id = Column(String(60), ForeignKey('game_rooms.id'))
 
-    game_room = relationship('GameRoom', back_populates='questions')
 
     def __init__(self, text, options, correct_option_index, game_room=None, **kwargs):
         self.text = text
