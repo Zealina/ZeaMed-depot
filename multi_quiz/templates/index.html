@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime Multiplayer Trivia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        #game {
+            display: none;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="lobby">
+        <h1>Welcome to Realtime Trivia!</h1>
+        <input type="text" id="username" placeholder="Enter your name" required>
+        <button onclick="joinGame()">Join Game</button>
+    </div>
+    <div id="game">
+        <h1>Trivia Question</h1>
+        <div id="question"></div>
+        <button onclick="sendAnswer('A')">Answer A</button>
+        <button onclick="sendAnswer('B')">Answer B</button>
+        <button onclick="sendAnswer('C')">Answer C</button>
+        <button onclick="sendAnswer('D')">Answer D</button>
+    </div>
+    <script>
+        const socket = new WebSocket('ws://localhost:5000/ws');
+
+        socket.onopen = function() {
+            console.log('Connected to the server');
+        };
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            if (data.type === 'question') {
+                document.getElementById('question').innerText = data.question;
+                document.getElementById('lobby').style.display = 'none';
+                document.getElementById('game').style.display = 'block';
+            }
+        };
+
+        function joinGame() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                socket.send(JSON.stringify({ action: 'join', username: username }));
+            } else {
+                alert('Please enter your name');
+            }
+        }
+
+        function sendAnswer(answer) {
+            socket.send(JSON.stringify({ action: 'answer', answer: answer }));
+        }
+    </script>
+</body>
+</html>
