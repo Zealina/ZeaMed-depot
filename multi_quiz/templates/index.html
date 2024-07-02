@@ -41,7 +41,7 @@
         <button onclick="sendAnswer('D')">Answer D</button>
     </div>
     <script>
-        const socket = new WebSocket('ws://localhost:5000/ws');
+        const socket = new WebSocket();
 
         socket.onopen = function() {
             console.log('Connected to the server');
