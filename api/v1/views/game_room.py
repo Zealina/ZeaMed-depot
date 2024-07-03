@@ -11,7 +11,9 @@ from models import storage
 @app_views.route('/game-room/<room_name>')
 @login_required
 def game_room(room_name):
-    return render_template('game-room.html', room_name=room_name, players=[], room_creator_id=session.get('room_creator_id'))
+    room_creator_id = session.get("room_creator_id")
+    is_room_creator = current_user.id == room_creator_id
+    return render_template('game-room.html', room_name=room_name, players=[], is_room_creator=is_room_creator)
 
 @app_views.route('/create-room', methods=['POST'])
 @login_required
@@ -31,10 +33,11 @@ def create_room():
 
     session['room_id'] = new_room.id
     session['room_creator_id'] = creator_id
-    return jsonify({
+    to_send_back = {
         'success': True,
-        'redirect_url': url_for('game_room', room_name=room_name)
-    })
+        'redirect_url': url_for('app_views.game_room', room_name=room_name)
+    }
+    return jsonify(to_send_back)
 
 @app_views.route('/join-room', methods=['POST'])
 @login_required
@@ -42,13 +45,13 @@ def join_room():
     data = request.get_json()
     room_name = data['roomName']
     rooms = storage.all(GameRoom)
-    for room in rooms.values():
+    for room in rooms:
         if room.name == room_name:
             session['room_id'] = room.id
             players = get_users_in_room(room.id)
             return jsonify({
                 'success': True,
-                'redirect_url': url_for('game_room', room_name=room_name)
+                'redirect_url': url_for('app_views.game_room', room_name=room_name)
             })
     return jsonify({'success': False, 'message': 'Room does not exist!'}), 400
 
@@ -61,6 +64,6 @@ def room_users():
 
 def get_users_in_room(room_id):
     user_rooms = storage.all(UserRoom)
-    user_ids = [user_room.user_id for user_room in user_rooms.values() if user_room.room_id == room_id]
+    user_ids = [user_room.user_id for user_room in user_rooms if user_room.room_id == room_id]
     users = [storage.get(UserRoom, user_id) for user_id in user_ids]
     return users

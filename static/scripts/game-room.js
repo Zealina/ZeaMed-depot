@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const chatInput = document.getElementById('chat-input');
     const sendMessageBtn = document.getElementById('send-message-btn');
     const chatMessages = document.getElementById('chat-messages');
+    const playersList = document.getElementById('players');
 
     sendMessageBtn.addEventListener('click', () => {
         const message = chatInput.value;
@@ -19,10 +20,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     socket.on('player_joined', (data) => {
-        const playersList = document.getElementById('players');
         const playerItem = document.createElement('li');
         playerItem.textContent = data.username;
         playersList.appendChild(playerItem);
+
+        const messageItem = document.createElement('div');
+        messageItem.textContent = `${data.username} has joined the game.`;
+        chatMessages.appendChild(messageItem);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 
     socket.on('chat_message', (data) => {

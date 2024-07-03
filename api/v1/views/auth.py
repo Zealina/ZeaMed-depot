@@ -32,14 +32,18 @@ def register():
 def login():
     if request.method == 'GET':
         return render_template('login.html')
+    print("Executing Login")
     data = request.get_json()
     email = data['email']
     password = data['password']
+    print("Login Data: ", data)
 
     user_list = storage.all(User)
 
     for user in user_list:
         if user.email == email and user.password == password:
+            print(f"User Email: {user.email} Sent Email: {email}", flush=True)
+            print(f"User Password: {user.password} Sent Password: {password}", flush=True)
             login_user(user)
             return jsonify({"message": "Login successful"}), 200
     return jsonify({"message": "Invalid email or password"}), 401

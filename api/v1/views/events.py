@@ -5,7 +5,7 @@ from flask_socketio import join_room, leave_room, emit
 from flask_login import current_user
 from models.user_room import UserRoom
 from models.question import Question
-from api.v1.extensions import socketio
+from api.v1.extension import socketio
 from models import storage
 
 @socketio.on('join')
@@ -20,6 +20,7 @@ def handle_join(data):
     storage.save()  # Save changes to the database
 
     emit('player_joined', {'username': username}, room=room_id)
+    emit('chat_message', {'message': f'{username} has joined the game.'}, room=room_id)
 
 @socketio.on('leave')
 def handle_leave(data):

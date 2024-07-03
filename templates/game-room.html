@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Room - ZeaMed Depot</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/game-room.css') }}">
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="navbar">
@@ -43,7 +44,7 @@
                         <input type="text" id="chat-input" placeholder="Type a message...">
                         <button id="send-message-btn">Send</button>
                     </div>
-                    {% if current_user.id == room_creator_id %}
+                    {% if is_room_creator %}
                     <div class="admin-controls">
                         <button id="start-game-btn">Start Game</button>
                         <button id="add-question-btn">Add Question</button>
