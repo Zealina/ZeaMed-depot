@@ -41,8 +41,10 @@
                     <div class="chat-box">
                         <h2>Chat</h2>
                         <div id="chat-messages"></div>
-                        <input type="text" id="chat-input" placeholder="Type a message...">
-                        <button id="send-message-btn">Send</button>
+			<form id="chat-input-form">
+				<input type="text" id="chat-input" placeholder="Type a message...">
+				<button id="send-message-btn" type='submit'>Send</button>
+			</form>
                     </div>
                     {% if is_room_creator %}
                     <div class="admin-controls">
@@ -58,6 +60,21 @@
                         </ul>
                     </div>
                 </section>
+		<div id='popup-add-question' aria-hidden='true'>
+			<h2>Add Question</h2>
+			<form id="form-add-question">
+				<input placeholder='Type Question...' id='question-input' required></input>
+				<ul>
+					<li><textarea id='options-input' placeholder='Options should be separated with ,, ' required></textarea></li>
+					<li><input id='correct-option-input' class='correct-option-input' placeholder='Correct Option Index e.g 3...' required></input></li>
+				</ul>
+				<div>
+					<button id='next-question' type='submit'>Next Question</button>
+					<button id='close-popup' type='button'>Close</button>
+				</div>
+			</form>
+			<p>Number of Questions: <span id='question-counter'></span></p>
+		</div>
             </main>
         </div>
     </div>

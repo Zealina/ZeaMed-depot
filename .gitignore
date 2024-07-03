@@ -1,3 +1,4 @@
 __pycache__/
 .database_dev_login
 .database_test_login
+start_app.sh
