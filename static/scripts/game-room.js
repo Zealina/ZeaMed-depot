@@ -7,68 +7,73 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const playersList = document.getElementById('players');
 
     sendMessageBtn.addEventListener('click', () => {
-        const message = chatInput.value;
+        const message = chatInput.value.trim();
         if (message) {
-            socket.emit('chat_message', { message: message });
+            socket.emit('new_message', { username: getUsername(), message: message });
             chatInput.value = '';
         }
     });
 
     socket.on('connect', () => {
-        const username = document.getElementById('username').textContent;
-        console.log('Socket connected, emitting join event for:', username);
+        const username = getUsername();
         socket.emit('join', { username: username });
     });
 
     socket.on('player_joined', (data) => {
-        console.log('Player joined event received:', data);
-        
-        // Check if the player is already in the list
-        const existingPlayers = Array.from(playersList.children).map(item => item.textContent);
-        if (!existingPlayers.includes(data.username)) {
-            const playerItem = document.createElement('li');
-            playerItem.textContent = data.username;
-            playersList.appendChild(playerItem);
+        const messageItem = document.createElement('div');
+        messageItem.innerHTML = `<span class="joined-message">${data.username} has joined the game.</span>`;
+        chatMessages.appendChild(messageItem);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            const messageItem = document.createElement('div');
-            messageItem.textContent = `${data.username} has joined the game.`;
-            chatMessages.appendChild(messageItem);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        } else {
-            console.log('Player already in list:', data.username);
-        }
+        updatePlayersList(data.username);
     });
 
-    socket.on('chat_message', (data) => {
-        console.log('Chat message received:', data);
+    socket.on('player_left', (data) => {
         const messageItem = document.createElement('div');
-        messageItem.textContent = data.message;
+        messageItem.innerHTML = `<span class="left-message">${data.username} has left the game.</span>`;
+        chatMessages.appendChild(messageItem);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        removePlayerFromList(data.username);
+    });
+
+    socket.on('message_sent', (data) => {
+        const messageItem = document.createElement('div');
+        messageItem.innerHTML = `<strong>${data.username}</strong>: ${data.message}`;
         chatMessages.appendChild(messageItem);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 
-    const startGameBtn = document.getElementById('start-game-btn');
-    startGameBtn?.addEventListener('click', () => {
-        console.log('Start game button clicked');
-        socket.emit('start_game', {});
+    socket.on('history_loaded', (data) => {
+        data.history.forEach((msg) => {
+            const messageItem = document.createElement('div');
+            if (msg.username === 'System') {
+                messageItem.innerHTML = `<span class="joined-message">${msg.message}</span>`;
+            } else {
+                messageItem.innerHTML = `<strong>${msg.username}</strong>: ${msg.message}`;
+            }
+            chatMessages.appendChild(messageItem);
+        });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 
-    const addQuestionBtn = document.getElementById('add-question-btn');
-    addQuestionBtn?.addEventListener('click', () => {
-        const questionText = prompt('Enter the question:');
-        if (questionText) {
-            console.log('Adding question:', questionText);
-            socket.emit('add_question', { question: questionText });
+    function getUsername() {
+        return document.getElementById('username').textContent;
+    }
+
+    function updatePlayersList(username) {
+        const playerItem = document.createElement('li');
+        playerItem.textContent = username;
+        playersList.appendChild(playerItem);
+    }
+
+    function removePlayerFromList(username) {
+        const playerItems = playersList.getElementsByTagName('li');
+        for (let i = 0; i < playerItems.length; i++) {
+            if (playerItems[i].textContent === username) {
+                playersList.removeChild(playerItems[i]);
+                break;
+            }
         }
-    });
-
-    socket.on('question_added', (data) => {
-        console.log('Question added:', data);
-        alert(`Question added: ${data.question}`);
-    });
-
-    socket.on('game_started', (data) => {
-        console.log('Game started:', data);
-        alert('Game started with questions: ' + data.questions.join(', '));
-    });
+    }
 });

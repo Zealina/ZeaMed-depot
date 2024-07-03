@@ -8,6 +8,7 @@ from models.game_room import GameRoom
 from models.user import User
 from models.question import Question
 from models.user_room import UserRoom
+from models.chat_message import ChatMessage
 from os import getenv
 
 class Storage:

@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-"""Model for the game room"""
-
-from sqlalchemy import Column, String, ForeignKey, Boolean
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel
+from models.chat_message import ChatMessage  # Ensure correct import
 
 class GameRoom(BaseModel):
     """Model for representing a game room"""
@@ -12,6 +10,8 @@ class GameRoom(BaseModel):
 
     name = Column(String(255), nullable=False)
     creator_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+
+    messages = relationship('ChatMessage', backref='game_room', cascade='all, delete-orphan')
 
     def __init__(self, name, **kwargs):
         self.name = name

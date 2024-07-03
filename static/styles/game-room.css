@@ -113,3 +113,28 @@ body {
     border-bottom: 1px solid #ddd;
     padding: 5px 0;
 }
+/* Add these styles for different message types */
+
+.chat-messages div {
+    margin-bottom: 5px;
+}
+
+.chat-messages .joined-message {
+    font-style: italic;
+    font-size: smaller;
+    font-weight: bold;
+    color: #666;  /* Or any other color you prefer */
+}
+
+.chat-messages strong {
+    font-weight: bold;
+    color: #333;  /* Bold usernames color */
+}
+
+.chat-messages .left-message {
+    font-style: italic;
+    font-size: smaller;
+    font-weight: bold;
+    color: #888;  /* Color for left messages */
+}
+
