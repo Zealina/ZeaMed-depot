@@ -97,3 +97,31 @@ body {
 .section.active {
     display: block;
 }
+
+/* New styles for the room form */
+#room-form {
+    margin-top: 20px;
+}
+
+#room-form label, #room-form input, #room-form button {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#room-form input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#room-form button {
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#room-form button:hover {
+    background-color: #575757;
+}

@@ -3,7 +3,11 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base
+from models.base_model import BaseModel, Base
+from models.game_room import GameRoom
+from models.user import User
+from models.question import Question
+from models.user_room import UserRoom
 from os import getenv
 
 class Storage:

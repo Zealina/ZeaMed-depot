@@ -21,7 +21,7 @@
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#profile">Profile</a></li>
-                <li><a href="/api/v1/game-room">Game Rooms</a></li>
+                <li><a href="#game-room">Game Rooms</a></li>
                 <li><a href="#leaderboard">Leaderboard</a></li>
                 <li><a href="#settings">Settings</a></li>
                 <li><a href="/logout">Logout</a></li>
@@ -39,6 +39,16 @@
                     <p>Email: {{ user.email }}</p>
                     <p>First Name: {{ user.firstname }}</p>
                     <p>Last Name: {{ user.lastname }}</p>
+                </section>
+                <section id="game-room" class="section">
+                    <h2>Game Rooms</h2>
+                    <button id="create-room-btn">Create Room</button>
+                    <button id="join-room-btn">Join Room</button>
+                    <form id="room-form" style="display: none;">
+                        <label for="room-name">Room Name:</label>
+                        <input type="text" id="room-name" name="room-name" required>
+                        <button type="submit" id="room-form-submit">Submit</button>
+                    </form>
                 </section>
                 <section id="leaderboard" class="section">
                     <h2>Leaderboard</h2>
