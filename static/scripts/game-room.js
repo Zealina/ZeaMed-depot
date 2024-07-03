@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const chatMessages = document.getElementById('chat-messages');
     const playersList = document.getElementById('players');
     const chatInputForm = document.getElementById('chat-input-form');
-    const formAddQuestion = document.getElementById('form-add-question');
+
+    const isCreator = document.body.getAttribute('data-is-creator') === 'True';
+    
+    if (isCreator) {
+	const formAddQuestion = document.getElementById('form-add-question');
     const closePopUp = document.getElementById('close-popup');
     const popupAddQuestion = document.getElementById('popup-add-question');
     const addQuestionBtn = document.getElementById('add-question-btn');
@@ -53,6 +57,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             alert(e);
         }
     });
+    }
 
     chatInputForm.addEventListener('submit', (e) => {
         e.preventDefault();

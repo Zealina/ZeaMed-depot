@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/game-room.css') }}">
     <script src="{{ url_for('static', filename='scripts/socket.io.min.js') }}"></script>
 </head>
-<body>
+<body data-is-creator='{{ is_room_creator }}'>
     <header class="navbar">
         <div class="logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="ZeaMed Depot Logo">
@@ -60,6 +60,7 @@
                         </ul>
                     </div>
                 </section>
+		{% if is_room_creator %}
 		<div id='popup-add-question' aria-hidden='true'>
 			<h2>Add Question</h2>
 			<form id="form-add-question">
@@ -75,6 +76,7 @@
 			</form>
 			<p>Number of Questions: <span id='question-counter'></span></p>
 		</div>
+		{% endif %}
             </main>
         </div>
     </div>
