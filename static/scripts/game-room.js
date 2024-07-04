@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 validateQuestion(options, correct);
                 const data = {
-                    text: question, 
+                    question: question, 
                     options: options,
                     correct_option_index: Number(correct)
                 }
@@ -57,6 +57,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 alert(e);
             }
         });
+	socket.on('question_added', (data) => {
+	    const counter = document.getElementById('question-counter');
+	    counter.textContent = data.count;
+	});
     }
 
     chatInputForm.addEventListener('submit', (e) => {
@@ -71,6 +75,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     socket.on('connect', () => {
         const username = getUsername();
         socket.emit('join', { username: username });
+	socket.emit('chat_history', {message: 'Chat History'});
     });
 
     socket.on('player_joined', (data) => {

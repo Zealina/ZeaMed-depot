@@ -101,6 +101,12 @@ def handle_add_question(data):
 @socketio.on('start_game')
 def handle_start_game(data):
     room_id = session.get('room_id')
+    username = session.get('username')
+
+    if is_creator(username, room_id):
+        emit('game_in_progress')
+        return
+
     questions_list = storage.all(Question)
     questions = [question for question in questions_list if question.room_id == room_id]
 
@@ -109,7 +115,7 @@ def handle_start_game(data):
         return
 
     question_index = 0
-    scores = {player: 0 for player in get_players_in_room(room_id)}  # Initialize scores for players
+    scores = {player: 0 for player in get_players_in_room(room_id)}
     question_timer = None
 
     def send_next_question():
@@ -127,17 +133,15 @@ def handle_start_game(data):
 
         emit('next_question', question_data, room=room_id)
 
-        # Start timer for the current question
         if question_timer:
             question_timer.cancel()
-        question_timer = Timer(5.0, timeout_next_question)
+        question_timer = Timer(30.0, timeout_next_question)
         question_timer.start()
 
     def timeout_next_question():
         nonlocal question_index
         print(f'Timeout for question {question_index + 1}')
 
-        # No score update for players on timeout
         question_index += 1
         send_next_question()
 
@@ -148,12 +152,12 @@ def handle_start_game(data):
         answer = answer_data['answer']
 
         if player not in scores:
-            return  # Player not in the game
+            return
 
         current_question = questions[question_index]
 
         if answer == current_question.options.split(',,')[current_question.correct_option_index]:
-            scores[player] += 1  # Update score for the correct answer
+            scores[player] += 1
 
         question_index += 1
         print(scores)
@@ -162,9 +166,11 @@ def handle_start_game(data):
     send_next_question()
 
 def get_players_in_room(room_id):
-    # Implement a function to return a list of players in the specified room
-    # This is just a placeholder function
     players_id_list = storage.all(UserRoom)
     room_players = [player_id for player_id in players_id_list if player_id.room_id == room_id]
     players = [storage.get(User, player_id).username for player_id in room_players]
     return players
+
+def is_creator(username, room_id):
+    room = storage.get(Room, room_id)
+    return room.creator_username == username

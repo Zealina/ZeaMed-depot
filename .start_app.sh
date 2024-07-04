@@ -1,0 +1,1 @@
+ZEAMED_MYSQL_USER=zeamed_test ZEAMED_MYSQL_PWD=zeamed_test_pwd ZEAMED_MYSQL_HOST=localhost ZEAMED_MYSQL_DB=zeamed_test_db ZEAMED_MYSQL_ENV=test ZEAMED_SECRET_KEY=hamiltonisthemostawesome@gmail.com python3 app.py

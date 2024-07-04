@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question - ZeaMed Depot</title>
     <link rel="stylesheet" href="/static/styles/question.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 </head>
 <body>
     <header class="navbar">
@@ -13,18 +14,15 @@
             <h1>ZeaMed Depot</h1>
         </div>
         <div class="user-info">
-            <p>Welcome, User</p>
+            <p id="welcome-message">Welcome, User</p>
         </div>
     </header>
     <div class="main-container">
         <div class="question-container">
-            <h2>Question 1/10</h2>
+            <h2 id="question-number">Question 1/10</h2>
             <div class="timer" id="timer">Time Left: 30s</div>
             <div class="question" id="question">What is the capital of France?</div>
-            <form id="answer-form">
-                <input type="text" id="answer" placeholder="Your Answer" required>
-                <button type="submit">Submit Answer</button>
-            </form>
+            <div class="options" id="options-container"></div>
         </div>
     </div>
     <script src="/static/scripts/question.js"></script>
