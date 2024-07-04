@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Game Room Events"""
-from flask import session
+from flask import session, request
 from flask_socketio import join_room, leave_room, emit
 from flask_login import current_user
 from models.user_room import UserRoom
@@ -8,6 +8,8 @@ from models.question import Question
 from models.chat_message import ChatMessage
 from api.v1.extension import socketio
 from models import storage
+from threading import Timer
+from time import sleep
 
 # ------------------------------
 # Chat-related Events
@@ -42,6 +44,7 @@ def handle_leave(data):
 
 @socketio.on('chat_history')
 def handle_chat_history(data):
+    print('Chat History Got Called')
     room_id = session.get('room_id')
 
     # Fetch all ChatMessage instances for the given room_id
@@ -49,8 +52,9 @@ def handle_chat_history(data):
     filtered_history = [msg for msg in chat_history if msg.room_id == room_id]
 
     history_data = [{'username': msg.username, 'message': msg.message} for msg in filtered_history]
+    print("History Data: ", history_data)
 
-    emit('history_loaded', {'history': history_data}, room=room_id)
+    emit('history_loaded', {'history': history_data}, to=request.sid)
 
 @socketio.on('new_message')
 def handle_new_message(data):
@@ -73,17 +77,94 @@ def handle_new_message(data):
 @socketio.on('add_question')
 def handle_add_question(data):
     room_id = session.get('room_id')
-    question_text = data['question']
+    text = data['question']
+    options = data['options']
+    correct_option_index = data['correct_option_index']
 
-    new_question = Question(room_id=room_id, question_text=question_text)
+    new_question = Question(room_id=room_id, text=text, options=options, correct_option_index=correct_option_index)
+    print(new_question.to_dict())
     storage.add(new_question)
     storage.save()  # Save changes to the database
+    question_list = storage.all(Question)
 
-    emit('question_added', {'question': question_text}, room=room_id)
+    count = 0
+    for question in question_list:
+        if question.room_id == room_id:
+            count += 1
+
+    emit('question_added', {'count': count}, room=room_id)
+
+#------------------------------------
+# Game Logic
+#------------------------------------
 
 @socketio.on('start_game')
 def handle_start_game(data):
     room_id = session.get('room_id')
-    questions = storage.query(Question).filter_by(room_id=room_id).all()
-    question_texts = [q.question_text for q in questions]
-    emit('game_started', {'questions': question_texts}, room=room_id)
+    questions_list = storage.all(Question)
+    questions = [question for question in questions_list if question.room_id == room_id]
+
+    if not questions:
+        emit('error', {'message': 'No questions available'}, room=room_id)
+        return
+
+    question_index = 0
+    scores = {player: 0 for player in get_players_in_room(room_id)}  # Initialize scores for players
+    question_timer = None
+
+    def send_next_question():
+        nonlocal question_index, question_timer
+
+        if question_index >= len(questions):
+            emit('game_over', {'scores': scores}, room=room_id)
+            return
+
+        current_question = questions[question_index]
+        question_data = {
+            'question': current_question.question_text,
+            'options': current_question.options.split(',,')
+        }
+
+        emit('next_question', question_data, room=room_id)
+
+        # Start timer for the current question
+        if question_timer:
+            question_timer.cancel()
+        question_timer = Timer(5.0, timeout_next_question)
+        question_timer.start()
+
+    def timeout_next_question():
+        nonlocal question_index
+        print(f'Timeout for question {question_index + 1}')
+
+        # No score update for players on timeout
+        question_index += 1
+        send_next_question()
+
+    @socketio.on('answer_question')
+    def handle_answer_question(answer_data):
+        nonlocal question_index, question_timer
+        player = session.get('username')
+        answer = answer_data['answer']
+
+        if player not in scores:
+            return  # Player not in the game
+
+        current_question = questions[question_index]
+
+        if answer == current_question.options.split(',,')[current_question.correct_option_index]:
+            scores[player] += 1  # Update score for the correct answer
+
+        question_index += 1
+        print(scores)
+        send_next_question()
+
+    send_next_question()
+
+def get_players_in_room(room_id):
+    # Implement a function to return a list of players in the specified room
+    # This is just a placeholder function
+    players_id_list = storage.all(UserRoom)
+    room_players = [player_id for player_id in players_id_list if player_id.room_id == room_id]
+    players = [storage.get(User, player_id).username for player_id in room_players]
+    return players
