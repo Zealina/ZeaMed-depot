@@ -22,7 +22,28 @@
             <h2 id="question-number">Question 1/10</h2>
             <div class="timer" id="timer">Time Left: 30s</div>
             <div class="question" id="question">What is the capital of France?</div>
-            <div class="options" id="options-container"></div>
+            <form id='question-option-form'>
+                <p>Select the most appropriate option</p>
+                <div id="options-container">
+                    <div class='option-field'>
+                        <input type='radio' name="option" id="option-1" value="option-1"></input>
+                        <label for='option-1'>Option 1</label>
+                    </div>
+                    <div class='option-field'>
+                        <input type='radio' name="option" id="option-2" value="option-2"></input>
+                        <label for='option-2'>Option 2</label>
+                    </div>
+                    <div class='option-field'>
+                        <input type='radio' name="option" id="option-3" value="option-3"></input>
+                        <label for='option-3'>Option 3</label>
+                    </div>
+                    <div class='option-field'>
+                        <input type='radio' name="option" id="option-4" value="option-4"></input>
+                        <label for='option-4'>Option 4</label>
+                    </div>
+                </div>
+                <button id="option-submit" type="submit">Submit</button>
+            </form>
         </div>
     </div>
     <script src="/static/scripts/question.js"></script>

@@ -5,19 +5,62 @@ const questionNumberElement = document.getElementById('question-number');
 const timerElement = document.getElementById('timer');
 const questionElement = document.getElementById('question');
 const optionsContainer = document.getElementById('options-container');
+const submitButton = document.getElementById('option-submit');
+const optionsForm = document.getElementById('question-option-form');
 
-// Global variables
-let questionIndex = 0;
-let totalQuestions = 10;  // Set the total number of questions
+
+optionsForm.addEventListener('submit', (e) => {
+    try {
+        e.preventDefault();
+        const  selectedOption = optionsForm.querySelector('input[type=radio][name=option]:checked');
+        if (!selectedOption) {
+            throw Error('Select an option');
+        }
+        socket.emit('answered_question', {answer: selectedOption.value});
+    } catch (error) {
+        alert(error);
+    }
+})
+
+function addOption(option) {
+    const optionField = document.createElement("div");
+    optionField.classList.add('option-field');
+    
+    const radio = document.createElement('input');
+    radio.setAttribute('type', 'radio');
+    radio.setAttribute('name', 'option');
+    radio.setAttribute('value', option);
+    radio.setAttribute('id', option);
+    
+    const label = document.createElement('label');
+    label.setAttribute('for', option);
+
+    optionField.appendChild(radio);
+    optionField.appendChild(label);
+
+    optionsContainer.appendChild(optionField);
+}
+
+function addQuestion(data) {
+    questionElement.textContent = data.question;
+
+    optionsContainer.children.forEach((option) => option.remove());
+
+    for (let i = 0; i < data.options.length; i++) {
+           addOption(data.options[i]);
+    }
+    questionNumberElement.textContent = `Question ${data.questionIndex + 1}/${data.totalQuestions}`;
+}
+
 let timer;
 
 // Handle receiving a new question
 socket.on('next_question', (data) => {
     questionIndex++;
-    questionNumberElement.textContent = `Question ${questionIndex}/${totalQuestions}`;
-    questionElement.textContent = data.question;
-    displayOptions(data.options);
-    startTimer(30);  // Reset and start the timer for 30 seconds
+    addQuestion(data);
+    const duration = Number(data.duration);
+    
+    startTimer(duration);  // Reset and start the timer for 30 seconds
 });
 
 // Handle game over
